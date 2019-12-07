@@ -29,12 +29,8 @@
   treat the fuel amount you just calculated as the input mass and repeat the
   process, continuing until a fuel requirement is zero or negative."
   [mass]
-  (loop [extra-mass mass
-         total      0]
-    (let [extra-fuel (fuel extra-mass)]
-      (if-not (pos? extra-fuel)
-        total
-        (recur extra-fuel (+ total extra-fuel))))))
+  (let [initial-fuel (fuel mass)]
+    (reduce + (take-while pos? (iterate fuel initial-fuel)))))
 
 (defn part2
   []
