@@ -14,9 +14,7 @@
   three, round down, and subtract 2."
   [mass]
   (-> mass
-      (/ 3)
-      Math/floor
-      int
+      (quot 3)
       (- 2)))
 
 (defn part1
