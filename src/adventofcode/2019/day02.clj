@@ -46,14 +46,28 @@
   (assoc intcodes
          1 noun
          2 verb))
+
+(defn part1
   "Restore the gravity assist program (your puzzle input) to the '1202 program
   alarm' state it had just before the last computer caught fire. To do this,
   before running the program, replace position 1 with the value 12 and replace
   position 2 with the value 2."
-
-(defn part1
   []
   (-> fixture
       (restore-state 12 2)
       execute
       first))
+
+(defn part2
+  "Find the input noun and verb that cause the program to produce the output
+  19690720. What is 100 * noun + verb? (For example, if noun=12 and verb=2, the
+  answer would be 1202.)"
+  []
+  (first
+   (for [noun  (range 100)
+         verb  (range 100)
+         :when (= 19690720 (-> fixture
+                               (restore-state noun verb)
+                               execute
+                               first))]
+     (+ (* 100 noun) verb))))
