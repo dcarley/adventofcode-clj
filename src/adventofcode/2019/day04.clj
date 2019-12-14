@@ -24,8 +24,8 @@
 
 (defn valid?
   [xs]
-  (and (adjacent? xs)
-       (increasing? xs)))
+  (and (increasing? xs)
+       (adjacent? xs)))
 
 (defn part1
   []
