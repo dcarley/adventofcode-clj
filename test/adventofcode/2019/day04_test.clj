@@ -6,9 +6,6 @@
   (testing "fixture"
     (is (= [206938 679128] day04/fixture)))
 
-  (testing "digits"
-    (is (= [1 2 3 4 5 6] (day04/digits 123456))))
-
   (testing "adjacent?"
     (is (= nil (day04/adjacent? [1 2 3 4 5 6])))
     (is (= true (day04/adjacent? [1 2 3 3 4 5])))

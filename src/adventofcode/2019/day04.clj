@@ -10,15 +10,6 @@
            str/trim
            (str/split #"-"))))
 
-;; https://stackoverflow.com/a/29942388
-(defn digits
-  [x]
-  (->> x
-       (iterate #(quot % 10))
-       (take-while pos?)
-       (mapv #(mod % 10))
-       rseq))
-
 (defn adjacent?
   [xs]
   (->> xs
@@ -29,7 +20,7 @@
   [xs]
   (->> xs
        (partition 2 1)
-       (every? #(apply <= %))))
+       (every? #(<= (apply compare %) 0))))
 
 (defn valid?
   [xs]
@@ -40,6 +31,6 @@
   []
   (let [[min max] fixture]
     (->> (range min (inc max))
-         (map digits)
+         (map str)
          (filter valid?)
          count)))
