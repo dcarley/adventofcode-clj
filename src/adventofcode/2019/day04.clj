@@ -11,10 +11,10 @@
            (str/split #"-"))))
 
 (defn adjacent?
-  [xs]
+  [pred xs]
   (->> xs
        (partition-by identity)
-       (some #(>= (count %) 2))))
+       (some #(pred (count %) 2))))
 
 (defn increasing?
   [xs]
@@ -23,9 +23,11 @@
        (every? #(<= (apply compare %) 0))))
 
 (defn valid?
-  [xs]
-  (and (increasing? xs)
-       (adjacent? xs)))
+  ([xs]
+   (valid? xs >=))
+  ([xs pred]
+   (and (increasing? xs)
+        (adjacent? pred xs))))
 
 (defn part1
   []
@@ -33,4 +35,12 @@
     (->> (range min (inc max))
          (map str)
          (filter valid?)
+         count)))
+
+(defn part2
+  []
+  (let [[min max] fixture]
+    (->> (range min (inc max))
+         (map str)
+         (filter #(valid? % =))
          count)))
