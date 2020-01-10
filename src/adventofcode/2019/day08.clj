@@ -9,22 +9,58 @@
       slurp
       str/trim-newline))
 
-(def layer-size (* 25 6))
+(def black \0)
+(def white \1)
+(def transparent \2)
 
 (defn checksum
   [freqs]
-  (* (get freqs \1)
-     (get freqs \2)))
+  (* (get freqs white)
+     (get freqs transparent)))
 
 (defn verify
-  [image]
+  [image width height]
   (->> image
-       (partition layer-size)
+       (partition (* width height))
        (map frequencies)
-       (sort-by #(get % \0) <)
+       (sort-by #(get % black) <)
        first
        checksum))
 
 (defn part1
   []
-  (verify fixture))
+  (verify fixture 25 6))
+
+(defn first-colour
+  [pixels]
+  (some #{black white} pixels))
+
+(defn fill
+  [pixel]
+  (if (= pixel black) "▓" "░"))
+
+(defn decode
+  "decode a multi layer image to a single layer"
+  [image width height]
+  (let [layer-size (* width height)
+        layer-count (/ (count image) layer-size)]
+    (->> image
+         (partition layer-size) ;; by layer
+         (apply interleave)
+         (partition layer-count) ;; by pixel
+         (map first-colour))))
+
+(defn render
+  "render a single layer image"
+  [image width]
+  (->> image
+       (map fill)
+       (partition width)
+       (map (partial apply str))))
+
+(defn part2
+  []
+  (let [[width height] [25 6]]
+       (-> fixture
+           (decode width height)
+           (render width))))
