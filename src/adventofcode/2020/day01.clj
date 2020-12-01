@@ -10,16 +10,16 @@
        (map #(Integer/parseInt %))))
 
 (defn find-sum
-  [numbers]
-  (let [pairs (combo/combinations numbers 2)
+  [n numbers]
+  (let [pairs (combo/combinations numbers n)
         match? #(= 2020 (apply + %))]
     (->> pairs
          (filter match?)
          first)))
 
 (defn solve
-  [input]
+  [n input]
   (->> input
        parse
-       find-sum
+       (find-sum n)
        (apply *)))
