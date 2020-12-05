@@ -19,6 +19,11 @@
 (deftest day03
   (testing "part1"
     (testing "example"
-      (is (= 7 (solve example))))
+      (is (= 7 (part1 example))))
     (testing "solution"
-      (is (= 171 (solve (io/resource "2020/day03")))))))
+      (is (= 171 (part1 (io/resource "2020/day03"))))))
+  (testing "part2"
+    (testing "example"
+      (is (= 336 (part2 example))))
+    (testing "solution"
+      (is (= 1206576000 (part2 (io/resource "2020/day03")))))))

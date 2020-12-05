@@ -10,7 +10,7 @@
        line-seq))
 
 (defn count-trees
-  [lines]
+  [[x-inc y-inc] lines]
   (let [x-max (count (first lines))
         y-max (count lines)]
     (loop [x 0
@@ -18,14 +18,28 @@
            trees 0]
       (if (>= y y-max)
         trees
-        (recur (mod (+ 3 x) x-max)
-               (inc y)
+        (recur (mod (+ x-inc x) x-max)
+               (+ y-inc y)
                (if (= tree (nth (nth lines y) x))
                  (inc trees)
                  trees))))))
 
-(defn solve
+(def starting-positions
+  [[1 1]
+   [3 1]
+   [5 1]
+   [7 1]
+   [1 2]])
+
+(defn part1
   [input]
-  (-> input
+  (->> input
       parse
-      count-trees))
+      (count-trees (second starting-positions))))
+
+(defn part2
+  [input]
+  (let [lines (parse input)]
+    (->> starting-positions
+         (map #(count-trees % lines))
+         (reduce *))))
