@@ -3,11 +3,11 @@
 
 (defn parse-line
   [line]
-  (let [[_ pmin pmax pchar pass] (re-matches #"(\d+)-(\d+) (\w): (\w+)" line)]
-    {:min (Integer/parseInt pmin)
-     :max (Integer/parseInt pmax)
-     :char (first pchar)
-     :pass (frequencies pass)}))
+  (let [[_ a b char pass] (re-matches #"(\d+)-(\d+) (\w): (\w+)" line)]
+    {:a (Integer/parseInt a)
+     :b (Integer/parseInt b)
+     :char (first char)
+     :pass pass}))
 
 (defn parse
   [input]
@@ -16,17 +16,28 @@
        line-seq
        (map parse-line)))
 
-(defn valid?
+(defn valid-part1?
   [entry]
-  (<= (:min entry)
-      (get (:pass entry)
-           (:char entry)
-           0)
-      (:max entry)))
+  (let [min (:a entry)
+        max (:b entry)
+        freqs (frequencies (:pass entry))]
+    (<= min
+        (get freqs (:char entry) 0)
+        max)))
+
+(defn valid-part2?
+  [entry]
+  (let [pass (:pass entry)
+        a (nth pass (dec (:a entry)))
+        b (nth pass (dec (:b entry)))
+        char (:char entry)]
+    (and (not= a b)
+         (or (= a char)
+             (= b char)))))
 
 (defn solve
-  [input]
-  (-> input
-      parse
-      (filter valid?)
-      count))
+  [valid? input]
+  (->> input
+       parse
+       (filter valid?)
+       count))
