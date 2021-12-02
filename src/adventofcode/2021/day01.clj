@@ -8,9 +8,22 @@
        line-seq
        (map #(Integer/parseInt %))))
 
-(defn depth-increases
+(defn depth-single-increases
   [input]
   (let [depths (parse input)]
-    (reduce (fn [count [prev next]] (if (< prev next) (inc count) count))
-            0
-            (partition 2 1 depths))))
+    (reduce (fn [count [prev next]]
+              (if (< prev next)
+                (inc count)
+                count))
+            0 (partition 2 1 depths))))
+
+(defn depth-window-increases
+  [input]
+  (let [depths (parse input)]
+    (reduce (fn [count values]
+              (let [prev-window (apply + (take 3 values))
+                    next-window (apply + (drop 1 values))]
+                (if (< prev-window next-window)
+                  (inc count)
+                  count)))
+            0 (partition 4 1 depths))))

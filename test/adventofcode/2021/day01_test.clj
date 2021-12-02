@@ -18,6 +18,11 @@
 (deftest day01
   (testing "part1"
     (testing "example"
-      (is (= 7 (depth-increases part1-example))))
+      (is (= 7 (depth-single-increases part1-example))))
     (testing "solution"
-      (is (= 1832 (depth-increases (io/resource "2021/day01")))))))
+      (is (= 1832 (depth-single-increases (io/resource "2021/day01"))))))
+  (testing "part2"
+    (testing "example"
+      (is (= 5 (depth-window-increases part1-example))))
+    (testing "solution"
+      (is (= 1858 (depth-window-increases (io/resource "2021/day01")))))))
