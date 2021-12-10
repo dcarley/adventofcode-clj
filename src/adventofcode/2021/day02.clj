@@ -22,7 +22,6 @@
 
 (defn apply-instruction
   [position instruction]
-  (prn instruction)
   (let [{:keys [direction units]} instruction]
     (condp = direction
       "forward" (update position :horizontal #(+ % units))
